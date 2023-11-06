@@ -1,33 +1,52 @@
-
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18; //current version of solidity
 
-// pragma solidity >=0.8.0 <0.9.0;
+contract SimpleStorage{
+    uint public favoriteNumber;
+     mapping(string => uint256) public nameToFavoriteNumber;
+     function store(uint _favoriteNumber) public{
+    favoriteNumber =  _favoriteNumber;
 
-contract SimpleStorage {
-
-    uint256 favoriteNumber;
-
-    struct People {
-        uint256 favoriteNumber;
-        string name;
     }
-    // uint256[] public anArray;
-    People[] public people;
+    // as we use view and pure the gas doesnt get used
+    function retrive() public view returns(uint){
+      return  favoriteNumber;
 
-    mapping(string => uint256) public nameToFavoriteNumber;
-
-    function store(uint256 _favoriteNumber) public {
-        favoriteNumber = _favoriteNumber;
     }
+
     
-    function retrieve() public view returns (uint256){
-        return favoriteNumber;
+    People  public person = People({favoriteNumber:13 ,name:"Rina" });
+    struct People  {
+        uint favoriteNumber;
+        string name;
+
+
+    }
+      //array
+    People[] public people ;
+
+    uint luckyNumber;
+    function num(uint _luckyNumber) public {
+      luckyNumber = _luckyNumber;
+    }
+    function retrive1() public view returns(uint){
+      return  luckyNumber;
     }
 
-    function addPerson(string memory _name, uint256 _favoriteNumber) public {
-        people.push(People(_favoriteNumber, _name));
-        nameToFavoriteNumber[_name] = _favoriteNumber;
+    function addPerson(string memory _name , uint  _favoriteNumber)  public{
+     People memory newPerson = People({ favoriteNumber : _favoriteNumber , name : _name});
+     people.push(newPerson);
+     nameToFavoriteNumber[_name] = _favoriteNumber;
+      // same as above 
+      // People memory newPerson = People(_favoriteNumber ,  _name});
+
+      //no need to create the new person 
+    //  people.push(People(_favoriteNumber ,  _name));
+
+    // call data memory storage 
+
+    // mapping 
+   
+     
     }
 }
